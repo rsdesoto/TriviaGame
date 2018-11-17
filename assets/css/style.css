@@ -1,0 +1,17 @@
+body {
+    background-color: lightblue;
+}
+
+li {
+    margin: auto;
+    padding: 0;
+    list-style-type: none;
+    font-size: 40px;
+    text-align: center;
+    width: 50%;
+    border: 1px black solid;
+}
+
+li:hover {
+    background-color: grey;
+}
