@@ -63,10 +63,34 @@ $.ajax({
     });
 });
 
-// we get back result.results[i]
+var count = 5;
 
-// for each i:
-// question: result.results[i].question;
-// answer: use a RNG from 0 - 3; put in that html ID and set class to answer
-// wrong answers: for i - length and set class to no-answer
-// when you click on an element, if $(this).attr("class") is answer, then right! else wrong
+function nextCount() {
+    $("#countdown-display").text(count);
+
+    if (count === 0) {
+        viewResult();
+    }
+    count--;
+}
+
+function startCount() {
+    // TODO: Use showImage to hold the setInterval to run nextImage.
+    $("#result-display").text("Never Mind...");
+    showCount = setInterval(nextCount, 1000);
+}
+
+// create a function to say something ended
+function viewResult() {
+    clearInterval(showCount);
+
+    $("#result-display").text("Time!");
+
+    count = 5;
+    $("#countdown-display").text(count);
+    setTimeout(startCount, 3000);
+}
+
+// This will run the display image function as soon as the page loads.
+//nextCount();
+startCount();
