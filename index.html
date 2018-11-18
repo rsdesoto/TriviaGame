@@ -15,35 +15,49 @@
             media="screen"
             href="./assets/css/style.css"
         />
+        <link href="https://fonts.googleapis.com/css?family=Cousine" rel="stylesheet"> 
     </head>
     <body>
-        <div class="jumbotron">
-            <div id="question-area">
-                <p id="question-number">Result Display</p>
-                <p id="countdown-display">Time remaining: 30 seconds</p>
-                <p class="lead" id="question-text">A Question Of Some Kind</p>
-                <hr class="my-4" />
-                <p>
-                    <ul>
-                        <li id="option-0">One</li>
-                        <li id="option-1">Two</li>
-                        <li id="option-2">Three</li>
-                        <li id="option-3">Four</li>
-                    </ul>
-                </p>
-            </div>
-            <div id="result-area">
-                <p id="result"></p>
-                <p id="result-text"> </p>
-                <img id="result-image">
-            </div>
-            <div id="end-of-game">
-                <p id="final-wins"></p>
-                <p id="final-losses"></p>
-                <p id="final-timeout"></p>
-                <button id="reset-game">Reset Game</button>
+        <div class="container all-content">
+            <div class="row">
+                <div class="col">
+                    <div class="jumbotron">
+                        <div id="question-area">
+                            <p id="question-number">Result Display</p>
+                            <p id="countdown-display">
+                                Time remaining: 30 seconds
+                            </p>
+                            <p class="lead" id="question-text">
+                                A Question Of Some Kind
+                            </p>
+                            <hr class="my-4" />
+                            <p>
+                                <ul>
+                                    <li id="option-0">One</li>
+                                    <li id="option-1">Two</li>
+                                    <li id="option-2">Three</li>
+                                    <li id="option-3">Four</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div id="result-area">
+                            <p id="result"></p>
+                            <p id="result-text"></p>
+                            <img id="result-image" />
+                        </div>
+                        <div id="end-of-game">
+                            <p id="final-wins"></p>
+                            <p id="final-losses"></p>
+                            <p id="final-timeout"></p>
+                            <!-- <button id="reset-game">Reset Game</button> -->
+
+                            <button type="button" id="reset-game" class="btn btn-outline-success justify-content-center">Reset Game</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

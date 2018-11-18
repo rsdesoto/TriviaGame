@@ -28,7 +28,7 @@ function playGame() {
         var wrongAnswers;
 
         // this is the seconds counter for each round
-        var count = 5;
+        var count = 30;
 
         // create a function to restart the entire game
         function restartGame() {
@@ -131,8 +131,10 @@ function playGame() {
             clearInterval(showCount);
 
             if (roundCounter < 10) {
-                count = 5;
-                $("#countdown-display").text(count);
+                count = 30;
+                $("#countdown-display").text(
+                    `Time remaining: ${count} seconds`
+                );
                 setTimeout(startCount, 1000);
             } else {
                 setTimeout(endOfGame, 1000);
