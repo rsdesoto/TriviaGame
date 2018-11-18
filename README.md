@@ -8,7 +8,7 @@ To play, read each question and click on the answer. You have 30 seconds to answ
 
 The Rami Malek "Hackerman" image was originally created by Reddit user JBisBlu, posted to /r/MrRobot in 2015.
 
-I wish I knew where "Hacking In Progress" came from.
+The failure screen gif was poached from giphy.
 
 All questions from the [Open Trivia Database](https://opentdb.com/). I know twitter now allows 280 characters! Take it up with them!
 
