@@ -19,8 +19,8 @@
     <body>
         <div class="jumbotron">
             <div id="question-area">
-                <p id="result-display">Result Display</p>
-                <p id="countdown-display">30</p>
+                <p id="question-number">Result Display</p>
+                <p id="countdown-display">Time remaining: 30 seconds</p>
                 <p class="lead" id="question-text">A Question Of Some Kind</p>
                 <hr class="my-4" />
                 <p>
@@ -32,8 +32,17 @@
                     </ul>
                 </p>
             </div>
-            <p id="result"></p>
-            <p id="result-text"> </p>
+            <div id="result-area">
+                <p id="result"></p>
+                <p id="result-text"> </p>
+                <img id="result-image">
+            </div>
+            <div id="end-of-game">
+                <p id="final-wins"></p>
+                <p id="final-losses"></p>
+                <p id="final-timeout"></p>
+                <button id="reset-game">Reset Game</button>
+            </div>
         </div>
         <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"

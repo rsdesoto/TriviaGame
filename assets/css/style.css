@@ -15,3 +15,11 @@ li {
 li:hover {
     background-color: grey;
 }
+
+p {
+    text-align: center;
+}
+
+#result-area {
+    text-align: center;
+}

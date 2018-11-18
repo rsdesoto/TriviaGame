@@ -1,121 +1,198 @@
 ////////////////////////// TO DO
+function playGame() {
+    var queryUrl =
+        "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple";
 
-// 1. we want to only call the ajax query ONCE and then loop through the array of questions
-// 2. set a timer variable and set up how to go to the answer text upon timeout
-// 3. go to answer text upon answering
+    $.ajax({
+        url: queryUrl,
+        method: "GET"
+    }).then(function(result) {
+        console.log(result);
 
-var queryUrl =
-    "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple";
+        // create a function for showing the answer
 
-$.ajax({
-    url: queryUrl,
-    method: "GET"
-}).then(function(result) {
-    console.log(result);
+        // round counter stays OUTSIDE -- this increments up every time you switch to the new round
 
-    // create a function for showing the answer
+        // this defines what round we are on/what section of the array we should
+        // var roundCounter = 0;
+        // var arrIndex;
 
-    // round counter stays OUTSIDE -- this increments up every time you switch to the new round
+        // var correctAnswers = 0;
+        // var incorrectAnswers = 0;
+        // var timeOutAnswers = 0;
+        var roundCounter;
+        var arrIndex;
+        var correctAnswers;
+        var incorrectAnswers;
+        var timeOutAnswers;
+        var wrongAnswers;
 
-    // this defines what round we are on/what section of the array we should
-    var roundCounter = 0;
-    var arrIndex;
+        function setRound() {
+            roundCounter++;
 
-    function setRound() {
-        roundCounter++;
+            arrIndex = roundCounter - 1;
 
-        arrIndex = roundCounter - 1;
+            console.log(arrIndex);
 
-        // show the question area
-        $("#question-area").show();
+            // display what question you're on
+            $("#question-number").html(`Question ${roundCounter}`);
 
-        // display the question
-        $("#question-text").html(result.results[arrIndex].question);
+            // show the question area and hide the result area
+            $("#question-area").show();
+            $("#result-area").hide();
 
-        // set the answer
-        var answerNum = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
-        $("#option-" + answerNum).html(result.results[arrIndex].correct_answer);
-        $("#option-" + answerNum).attr("class", "correct");
+            // display the question
+            $("#question-text").html(result.results[arrIndex].question);
 
-        console.log(result.results[arrIndex].correct_answer);
+            // set the answer and assign to a random option
+            var answerNum = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
+            $("#option-" + answerNum).html(
+                result.results[arrIndex].correct_answer
+            );
+            $("#option-" + answerNum).attr("class", "correct");
 
-        // for incorrect results - move incorrect results to a new array, randomly sort, and then apply to
-        // the other answer list elements
-        var wrongAnswers = result.results[arrIndex].incorrect_answers;
-        console.log(wrongAnswers);
+            console.log(result.results[arrIndex].correct_answer);
 
-        for (var i = 0; i < 3; i++) {
-            var nindex = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
-            var temp = wrongAnswers[i];
-            wrongAnswers[i] = wrongAnswers[nindex];
-            wrongAnswers[nindex] = temp;
-        }
-        console.log(wrongAnswers);
+            // for incorrect results - create a new array, randomly sort, and then apply to
+            // the other answer list elements
+            for (
+                var i = 0;
+                i < result.results[arrIndex].incorrect_answers.length;
+                i++
+            ) {
+                wrongAnswers.push(
+                    result.results[arrIndex].incorrect_answers[i]
+                );
+            }
 
-        for (var i = 0; i <= 3; i++) {
-            if (i != answerNum) {
-                $("#option-" + i).html(wrongAnswers[i]);
+            console.log(wrongAnswers);
 
-                $("#option-" + i).attr("class", "incorrect");
+            for (var i = 0; i < 3; i++) {
+                var nindex = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+                var temp = wrongAnswers[i];
+                wrongAnswers[i] = wrongAnswers[nindex];
+                wrongAnswers[nindex] = temp;
+            }
+            console.log(wrongAnswers);
+
+            for (var i = 0; i <= 3; i++) {
+                if (i != answerNum) {
+                    var wrongAnswer = wrongAnswers.pop();
+                    $("#option-" + i).html(wrongAnswer);
+
+                    $("#option-" + i).attr("class", "incorrect");
+                }
             }
         }
-    }
 
-    // create a function to show the result screen. Status should be correct/incorrect.
-    // to update -- will add win/loss counters and gifs
-    function showResult(status) {
-        if (status === "correct") {
-            $("#result").html("Correct!");
-        } else {
-            $("#result").html("Incorrect :c");
+        // create a function to show the result screen. Status should be correct/incorrect/time.
+        // to update -- will add win/loss counters and gifs
+        function showResult(status) {
+            // show the question area and hide the result area
+            $("#question-area").hide();
+            $("#result-area").show();
+            $("#end-of-game").hide();
+
+            if (status === "correct") {
+                $("#result").html("Correct!");
+                correctAnswers++;
+                $("#result-image").attr("src", "./assets/images/success.png");
+                $("#result-image").attr("alt", "success!");
+            } else if (status === "incorrect") {
+                $("#result").html("Incorrect :c");
+                incorrectAnswers++;
+                $("#result-image").attr("src", "./assets/images/failure.gif");
+                $("#result-image").attr("alt", "failure!");
+            } else {
+                $("#result").html("Time's up!");
+                timeOutAnswers++;
+                $("#result-image").attr("src", "./assets/images/failure.gif");
+                $("#result-image").attr("alt", "failure!");
+            }
+
+            $("#result-text").html(
+                `The answer was ${result.results[arrIndex].correct_answer}!`
+            );
+
+            clearInterval(showCount);
+
+            if (roundCounter < 10) {
+                count = 5;
+                $("#countdown-display").text(count);
+                setTimeout(startCount, 1000);
+            } else {
+                setTimeout(endOfGame, 1000);
+            }
         }
-        $("#result-text").html(
-            `The answer was ${result.results[arrIndex].correct_answer}!`
-        );
-    }
 
-    $("li").on("click", function(event) {
-        //alert($(this).attr("class"));
+        function endOfGame() {
+            $("#end-of-game").show();
+            $("#question-area").hide();
+            $("#result-area").hide();
 
-        if ($(this).attr("class") === "correct") {
-            // alert("Correct!");
-            showResult("correct");
-        } else {
-            // alert("Incorrect.");
-            showResult("incorrect");
+            $("#final-wins").html(`Correct Answers: ${correctAnswers}`);
+            $("#final-losses").html(`Incorrect Answers: ${incorrectAnswers}`);
+            $("#final-timeout").html(`No Answer: ${timeOutAnswers}`);
         }
+
+        var count = 5;
+
+        function nextCount() {
+            $("#countdown-display").text(`Time remaining: ${count} seconds`);
+
+            if (count === 0) {
+                showResult("time");
+            }
+            count--;
+        }
+
+        function startCount() {
+            // $("#result-display").text("Never Mind...");
+            $("#question-area").show();
+            $("#result-area").hide();
+            $("#end-of-game").hide();
+
+            setRound();
+
+            showCount = setInterval(nextCount, 1000);
+        }
+
+        // This will run the game as soon as the page loads.
+        //startCount();
+
+        $("li").on("click", function(event) {
+            //alert($(this).attr("class"));
+
+            if ($(this).attr("class") === "correct") {
+                // alert("Correct!");
+                showResult("correct");
+            } else {
+                // alert("Incorrect.");
+                showResult("incorrect");
+            }
+        });
+
+        // $("#reset-game").on("click", function(event) {
+        //     restartGame();
+        // });
+
+        // create a function to restart the entire game
+        function restartGame() {
+            roundCounter = 0;
+            arrIndex = 0;
+            wrongAnswers = [];
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            timeOutAnswers = 0;
+            startCount();
+        }
+
+        restartGame();
     });
+}
 
-    var count = 5;
+playGame();
 
-    function nextCount() {
-        $("#countdown-display").text(count);
-
-        if (count === 0) {
-            viewResult();
-        }
-        count--;
-    }
-
-    function startCount() {
-        $("#result-display").text("Never Mind...");
-        showCount = setInterval(nextCount, 1000);
-    }
-
-    // create a function to say something ended
-    function viewResult() {
-        clearInterval(showCount);
-
-        $("#result-display").text("Time!");
-
-        count = 5;
-        $("#countdown-display").text(count);
-        setTimeout(startCount, 3000);
-    }
-
-    // This will run the display image function as soon as the page loads.
-    //nextCount();
-    startCount();
-
-    setRound();
+$("#reset-game").on("click", function(event) {
+    playGame();
 });
