@@ -44,3 +44,7 @@ body {
     color: black;
     border-color: black;
 }
+
+img {
+    max-height: 400px;
+}

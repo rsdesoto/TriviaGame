@@ -105,18 +105,18 @@ function playGame() {
             if (status === "correct") {
                 $("#result").html("Correct!");
                 correctAnswers++;
-                $("#result-image").attr("src", "./assets/images/success.png");
-                $("#result-image").attr("alt", "success!");
+                $("#result-image-win").show();
+                $("#result-image-lose").hide();
             } else if (status === "incorrect") {
                 $("#result").html("Incorrect :c");
                 incorrectAnswers++;
-                $("#result-image").attr("src", "./assets/images/failure.gif");
-                $("#result-image").attr("alt", "failure!");
+                $("#result-image-win").hide();
+                $("#result-image-lose").show();
             } else {
                 $("#result").html("Time's up!");
                 timeOutAnswers++;
-                $("#result-image").attr("src", "./assets/images/failure.gif");
-                $("#result-image").attr("alt", "failure!");
+                $("#result-image-win").hide();
+                $("#result-image-lose").show();
             }
 
             // show the question area and hide the result area
@@ -135,9 +135,9 @@ function playGame() {
                 $("#countdown-display").text(
                     `Time remaining: ${count} seconds`
                 );
-                setTimeout(startCount, 1000);
+                setTimeout(startCount, 4000);
             } else {
-                setTimeout(endOfGame, 1000);
+                setTimeout(endOfGame, 4000);
             }
         }
 
