@@ -27,6 +27,21 @@ function playGame() {
         var timeOutAnswers;
         var wrongAnswers;
 
+        // this is the seconds counter for each round
+        var count = 5;
+
+        // create a function to restart the entire game
+        function restartGame() {
+            roundCounter = 0;
+            arrIndex = 0;
+            wrongAnswers = [];
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            timeOutAnswers = 0;
+            startCount();
+        }
+
+        // this creates the question, the answer, and wrong answers
         function setRound() {
             roundCounter++;
 
@@ -86,13 +101,7 @@ function playGame() {
         }
 
         // create a function to show the result screen. Status should be correct/incorrect/time.
-        // to update -- will add win/loss counters and gifs
         function showResult(status) {
-            // show the question area and hide the result area
-            $("#question-area").hide();
-            $("#result-area").show();
-            $("#end-of-game").hide();
-
             if (status === "correct") {
                 $("#result").html("Correct!");
                 correctAnswers++;
@@ -110,6 +119,11 @@ function playGame() {
                 $("#result-image").attr("alt", "failure!");
             }
 
+            // show the question area and hide the result area
+            $("#question-area").hide();
+            $("#result-area").show();
+            $("#end-of-game").hide();
+
             $("#result-text").html(
                 `The answer was ${result.results[arrIndex].correct_answer}!`
             );
@@ -125,6 +139,7 @@ function playGame() {
             }
         }
 
+        // this displays the results and the reset game button
         function endOfGame() {
             $("#end-of-game").show();
             $("#question-area").hide();
@@ -135,8 +150,8 @@ function playGame() {
             $("#final-timeout").html(`No Answer: ${timeOutAnswers}`);
         }
 
-        var count = 5;
-
+        // this creates the counter counting down at the top of the screen, and switches to the end of round
+        // screen for time out after 30 seconds
         function nextCount() {
             $("#countdown-display").text(`Time remaining: ${count} seconds`);
 
@@ -147,7 +162,6 @@ function playGame() {
         }
 
         function startCount() {
-            // $("#result-display").text("Never Mind...");
             $("#question-area").show();
             $("#result-area").hide();
             $("#end-of-game").hide();
@@ -157,9 +171,7 @@ function playGame() {
             showCount = setInterval(nextCount, 1000);
         }
 
-        // This will run the game as soon as the page loads.
-        //startCount();
-
+        // this pulls up the results if an option is chosen
         $("li").on("click", function(event) {
             //alert($(this).attr("class"));
 
@@ -172,21 +184,7 @@ function playGame() {
             }
         });
 
-        // $("#reset-game").on("click", function(event) {
-        //     restartGame();
-        // });
-
-        // create a function to restart the entire game
-        function restartGame() {
-            roundCounter = 0;
-            arrIndex = 0;
-            wrongAnswers = [];
-            correctAnswers = 0;
-            incorrectAnswers = 0;
-            timeOutAnswers = 0;
-            startCount();
-        }
-
+        // initialize game
         restartGame();
     });
 }
